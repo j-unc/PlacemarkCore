@@ -19,7 +19,10 @@ async function init() {
   server.views({
     engines: { hbs: Handlebars },
     relativeTo: __dirname,
-    path: "./views"
+    path: "./views",
+    layout: "layouts/main",
+    partialsPath: "./views/partials",
+    isCached: false
   });
 
   server.route(routes);
