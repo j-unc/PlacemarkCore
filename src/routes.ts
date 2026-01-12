@@ -1,5 +1,7 @@
 import { ServerRoute } from "@hapi/hapi";
 
+import { accountsController } from "./controllers/accounts-controller.js";
+
 export const routes: ServerRoute[] = [
   {
     method: "GET",
@@ -11,15 +13,11 @@ export const routes: ServerRoute[] = [
   {
     method: "GET",
     path: "/login",
-    handler: (request, h) => {
-      return h.view("auth/login", { title: "Login" });
-    }
+    handler: accountsController.loginForm
   },
   {
     method: "GET",
     path: "/signup",
-    handler: (request, h) => {
-      return h.view("auth/signup", { title: "Sign Up" });
-    }
+    handler: accountsController.signupForm
   }
 ];
