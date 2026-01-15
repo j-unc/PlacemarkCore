@@ -3,7 +3,6 @@ import { db } from "./store-utils.js";
 import { UserStore } from "../store.js"; 
 import { User } from "../user.js";
 
-
 export const userStoreJson: UserStore = {
 
   async getAll(): Promise<User[]> {
