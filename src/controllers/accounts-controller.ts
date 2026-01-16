@@ -34,6 +34,29 @@ export const accountsController = {
     });
 
     return h.redirect("/login");
+  },
+
+  login: async (request: Request, h: ResponseToolkit) => {
+    const { email, password } = request.payload as {
+      email: string;
+      password: string;
+    };
+
+    const user = await db.userStore!.getByEmail(email);
+
+    if (!user || user.password !== password) {
+      return h
+        .view("auth/login", {
+          title: "Login",
+          error: "Invalid email or password",
+          email
+        })
+        .code(401);
+    }
+
+    // ToDo: jwt token generation and setting cookie
+
+    return h.redirect("/");
   }
 
 };

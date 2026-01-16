@@ -16,6 +16,11 @@ export const routes: ServerRoute[] = [
     handler: accountsController.loginForm
   },
   {
+    method: "POST",
+    path: "/login",
+    handler: accountsController.login
+  },
+  {
     method: "GET",
     path: "/signup",
     handler: accountsController.signupForm
