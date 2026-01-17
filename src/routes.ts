@@ -1,6 +1,7 @@
 import { ServerRoute } from "@hapi/hapi";
 import { accountsController } from "./controllers/accounts-controller.js";
 import { dashboardController } from "./controllers/dashboard-controller.js";
+import { adminController } from "./controllers/admin-controller.js";
 
 export const routes: ServerRoute[] = [
   {
@@ -39,5 +40,10 @@ export const routes: ServerRoute[] = [
     method: "GET",
     path: "/dashboard",
     options: dashboardController.index
+  },
+  {
+    method: "GET",
+    path: "/admin-overview",
+    options: adminController.index
   }
 ];
