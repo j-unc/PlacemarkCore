@@ -89,8 +89,18 @@ export const accountsController = {
           .code(401);
       }
 
+      request.cookieAuth.set({ id: user._id });
+
       return h.redirect("/");
     }
+  },
+
+  async validate(request: Request, session: any) {
+    const user = await db.userStore!.getById(session.id);
+    if (!user) {
+      return { isValid: false };
+    }
+    return { isValid: true, credentials: user };
   }
 
 };
