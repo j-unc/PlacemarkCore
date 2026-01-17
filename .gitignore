@@ -1,6 +1,7 @@
 node_modules
 .env
 dist
+#.vscode/settings.json
 
 # Local json db
 src/models/json/db.json
