@@ -29,5 +29,10 @@ export const routes: ServerRoute[] = [
     method: "POST",
     path: "/signup",
     options: accountsController.signup
+  },
+  {
+    method: "GET",
+    path: "/logout",
+    options: accountsController.logout
   }
 ];

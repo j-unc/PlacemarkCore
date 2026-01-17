@@ -95,6 +95,13 @@ export const accountsController = {
     }
   },
 
+  logout: {
+    handler: (request: Request, h: ResponseToolkit) => {
+      request.cookieAuth.clear();
+      return h.redirect("/login");
+    }
+  },
+
   async validate(request: Request, session: any) {
     const user = await db.userStore!.getById(session.id);
     if (!user) {
