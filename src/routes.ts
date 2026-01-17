@@ -1,6 +1,6 @@
 import { ServerRoute } from "@hapi/hapi";
-
 import { accountsController } from "./controllers/accounts-controller.js";
+import { dashboardController } from "./controllers/dashboard-controller.js";
 
 export const routes: ServerRoute[] = [
   {
@@ -34,5 +34,10 @@ export const routes: ServerRoute[] = [
     method: "GET",
     path: "/logout",
     options: accountsController.logout
+  },
+  {
+    method: "GET",
+    path: "/dashboard",
+    options: dashboardController.index
   }
 ];

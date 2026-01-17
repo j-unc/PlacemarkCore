@@ -91,7 +91,7 @@ export const accountsController = {
 
       request.cookieAuth.set({ id: user._id });
 
-      return h.redirect("/");
+      return h.redirect("/dashboard");
     }
   },
 
