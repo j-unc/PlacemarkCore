@@ -1,5 +1,6 @@
 import Hapi from "@hapi/hapi";
 import Vision from "@hapi/vision";
+import Joi from "joi";
 import Handlebars from "handlebars";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -16,6 +17,8 @@ async function init() {
   });
 
   await db.init();
+
+  server.validator(Joi);
 
   await server.register(Vision);
 

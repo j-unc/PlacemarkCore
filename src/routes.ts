@@ -13,21 +13,21 @@ export const routes: ServerRoute[] = [
   {
     method: "GET",
     path: "/login",
-    handler: accountsController.loginForm
+    options: accountsController.loginForm
   },
   {
     method: "POST",
     path: "/login",
-    handler: accountsController.login
+    options: accountsController.login
   },
   {
     method: "GET",
     path: "/signup",
-    handler: accountsController.signupForm
+    options: accountsController.signupForm
   },
   {
     method: "POST",
     path: "/signup",
-    handler: accountsController.signup
+    options: accountsController.signup
   }
 ];

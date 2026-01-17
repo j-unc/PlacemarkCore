@@ -1,62 +1,96 @@
 import { Request, ResponseToolkit } from "@hapi/hapi";
 import { db } from "../models/db.js";
+import { UserSpec } from "../models/joi-schemas.js";         
 
 export const accountsController = {
-  loginForm: (request: Request, h: ResponseToolkit) => {
-    return h.view("auth/login", { title: "Login" });
-  },
+  loginForm: {
+    auth: false as false,
 
-  signupForm: (request: Request, h: ResponseToolkit) => {
-    return h.view("auth/signup", { title: "Sign Up" });
-  },
-
-  signup: async (request: Request, h: ResponseToolkit) => {
-    const { email, password } = request.payload as {
-      email: string;
-      password: string;
-    };
-
-    const existingUser = await db.userStore!.getByEmail(email);
-    if (existingUser) {
-      return h
-        .view("auth/signup", {
-          title: "Sign Up",
-          error: "Email already registered",
-          email
-        })
-        .code(400);
+    handler: (request: Request, h: ResponseToolkit) => {
+      return h.view("auth/login", { title: "Login" });
     }
-
-    await db.userStore!.add({
-      email,
-      password,
-      role: "user"
-    });
-
-    return h.redirect("/login");
   },
 
-  login: async (request: Request, h: ResponseToolkit) => {
-    const { email, password } = request.payload as {
-      email: string;
-      password: string;
-    };
+  signupForm: {
+    auth: false as false,
 
-    const user = await db.userStore!.getByEmail(email);
-
-    if (!user || user.password !== password) {
-      return h
-        .view("auth/login", {
-          title: "Login",
-          error: "Invalid email or password",
-          email
-        })
-        .code(401);
+    handler: (request: Request, h: ResponseToolkit) => {
+      return h.view("auth/signup", { title: "Sign Up" });
     }
+  },
 
-    // ToDo: jwt token generation and setting cookie
+  signup: {
+    auth: false as false,
 
-    return h.redirect("/");
+    validate: {
+      payload: UserSpec,
+      options: { abortEarly: false },
+      failAction: (request: Request, h: ResponseToolkit, error: any) => {
+        return h
+          .view("auth/signup", {
+            title: "Sign up error",
+            errors: error.details
+          })
+          .takeover()
+          .code(400);
+      }
+    },
+
+    handler: async (request: Request, h: ResponseToolkit) => {
+      const { email, password } = request.payload as any;
+
+      const existingUser = await db.userStore!.getByEmail(email);
+      if (existingUser) {
+        return h
+          .view("auth/signup", {
+            title: "Sign up error",
+            error: "Email already registered"
+          })
+          .code(400);
+      }
+
+      await db.userStore!.add({
+        email,
+        password,
+        role: "user"
+      });
+
+      return h.redirect("/login");
+    }
+  },
+
+  login: {
+    auth: false as false,
+
+    validate: {
+      payload: UserSpec,
+      options: { abortEarly: false },
+      failAction: (request: Request, h: ResponseToolkit, error: any) => {
+        return h
+          .view("auth/login", {
+            title: "Login error",
+            errors: error.details
+          })
+          .takeover()
+          .code(400);
+      }
+    },
+
+    handler: async (request: Request, h: ResponseToolkit) => {
+      const { email, password } = request.payload as any;
+
+      const user = await db.userStore!.getByEmail(email);
+      if (!user || user.password !== password) {
+        return h
+          .view("auth/login", {
+            title: "Login error",
+            error: "Invalid email or password"
+          })
+          .code(401);
+      }
+
+      return h.redirect("/");
+    }
   }
 
 };
