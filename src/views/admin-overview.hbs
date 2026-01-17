@@ -12,7 +12,7 @@
       <td>{{email}}</td>
       <td>{{role}}</td>
       <td>
-        <a href="/admin/users/delete/{{_id}}">Delete</a>
+        <a href="/admin-overview/deleteUser/{{_id}}" onclick="return confirm('Delete this user? {{email}}');">Delete</a>
       </td>
     </tr>
   {{/each}}

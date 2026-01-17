@@ -18,6 +18,21 @@ export const adminController = {
                 users,
             });
         }
+    },
+    deleteUser: {
+        handler: async (request: Request, h: ResponseToolkit) => {
+            const user = request.auth.credentials;
+
+            if (!user || user.role !== "admin") {
+                return h.response().code(403);
+            }
+
+            const userId = request.params.id;
+            console.log("Id to delete", userId);
+            await db.userStore!.deleteById(userId);
+
+            return h.redirect("/admin-overview");
+        }
     }
 };
 

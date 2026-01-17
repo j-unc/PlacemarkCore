@@ -45,5 +45,10 @@ export const routes: ServerRoute[] = [
     method: "GET",
     path: "/admin-overview",
     options: adminController.index
+  },
+  {
+    method: "GET",
+    path: "/admin-overview/deleteUser/{id}",
+    options: adminController.deleteUser
   }
 ];
