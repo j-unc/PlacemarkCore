@@ -1,6 +1,11 @@
 <nav>
   {{#if @root.user}}
     <a href="/dashboard">Dashboard</a>
+
+      {{#if isAdmin}}
+        <a href="/admin-overview">Admin</a>
+      {{/if}}
+
     <a href="/logout">Logout</a>
   {{else}}
     <a href="/login">Login</a>

@@ -7,7 +7,8 @@ export const dashboardController = {
       const user = request.auth.credentials;
       return h.view("dashboard", {
         title: "Dashboard",
-        user
+        user,
+        isAdmin: user.role === "admin"
       });
     }
   }
