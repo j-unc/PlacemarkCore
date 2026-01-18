@@ -1,0 +1,15 @@
+<h1>Placemarks</h1>
+
+<a href="/poi/add">Add Placemark</a>
+
+<ul>
+  {{#each placemarks}}
+    <li>
+      <strong>{{name}}</strong>
+      Description: {{description}}
+      Lat: {{latitude}}, Lng: {{longitude}}
+      <a href="/poi/edit/{{_id}}">Edit</a>
+      <a href="/poi/delete/{{_id}}" onclick="return confirm('Delete this Placemark? {{name}}');">Delete</a>
+    </li>
+  {{/each}}
+</ul>

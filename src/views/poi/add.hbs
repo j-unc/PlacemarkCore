@@ -1,0 +1,19 @@
+<h1>Add Placemark</h1>
+
+<form method="POST" action="/poi/add">
+  <label>Name</label>
+  <input type="text" name="name" required />
+
+  <label>Description</label>
+  <input type="text" name="description" required />
+
+  <label>Latitude</label>
+  <input type="number" name="latitude" required />
+
+  <label>Longitude</label>
+  <input type="number" name="longitude" required />
+
+  <button type="submit">Add</button>
+</form>
+
+<a href="/poi">Back</a>

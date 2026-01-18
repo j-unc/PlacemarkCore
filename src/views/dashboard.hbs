@@ -2,4 +2,16 @@
 
 <p>Welcome {{user.email}}</p>
 
-<a href="/logout">Logout</a>
+<ul>
+  {{#each placemarks}}
+    <li>
+      <strong>{{name}}</strong>
+      Description: {{description}}
+      Lat: {{latitude}}, Lng: {{longitude}}
+      {{#if @root.isAdmin}}
+        <a href="/poi/edit/{{_id}}">Edit</a>
+        <a href="/poi/delete/{{_id}}" onclick="return confirm('Delete this Placemark? {{name}}');">Delete</a>
+      {{/if}}
+    </li>
+  {{/each}}
+</ul>

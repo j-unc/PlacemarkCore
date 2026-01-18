@@ -1,0 +1,19 @@
+<h1>Edit Placemark</h1>
+
+<form method="POST" action="/poi/edit/{{placemark._id}}">
+  <label>Name</label>
+  <input type="text" name="name" value="{{placemark.name}}" required />
+
+  <label>Description</label>
+  <input type="text" name="description" value="{{placemark.description}}" required />
+
+  <label>Latitude</label>
+  <input type="number" step="any" name="latitude" value="{{placemark.latitude}}" required />
+
+  <label>Longitude</label>
+  <input type="number" step="any" name="longitude" value="{{placemark.longitude}}" required />
+
+  <button type="submit">Save</button>
+</form>
+
+<a href="/poi">Back</a>
