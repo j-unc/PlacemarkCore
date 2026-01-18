@@ -37,15 +37,16 @@ export const placemarkStoreJson: PlacemarkStore = {
         return newPlacemark;
     },
 
-    async update(placemark: Placemark): Promise<Placemark | undefined> {
-        await db.read();
-        const index = db.data.placemarks.findIndex(p => p._id === placemark._id);
-        if (index !== -1) {
-            db.data.placemarks[index] = placemark;
-            await db.write();
-            return placemark;
-        }
-        return undefined;
+    async update(poi: Placemark, updatedPoi: Partial<Omit<Placemark, "_id" | "userId">>): Promise<Placemark | undefined> {
+
+        
+        poi.name = updatedPoi.name ?? poi.name;
+        poi.description = updatedPoi.description ?? poi.description;
+        poi.latitude = updatedPoi.latitude ?? poi.latitude;
+        poi.longitude = updatedPoi.longitude ?? poi.longitude;
+
+        await db.write();
+        return poi;
     },
 
     async deleteById(id: string): Promise<void> {

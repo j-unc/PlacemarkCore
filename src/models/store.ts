@@ -14,6 +14,6 @@ export interface PlacemarkStore {
   getById(id: string): Promise<Placemark | undefined>;
   getByUserId(userId: string): Promise<Placemark[]>;
   add(placemark: Omit<Placemark, "_id">): Promise<Placemark>;
-  update(placemark: Placemark): Promise<Placemark | undefined>;
+  update(poi: Placemark, updatedPoi: Partial<Omit<Placemark, "_id" | "userId">>): Promise<Placemark | undefined>;
   deleteById(id: string): Promise<void>;
 }

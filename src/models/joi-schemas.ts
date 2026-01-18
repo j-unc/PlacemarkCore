@@ -6,7 +6,7 @@ export const UserSpec = {
 };
 
 export const PlacemarkSpec = {
-  userId: Joi.string().required(),
+  userId: Joi.string().allow("").optional(),
   name: Joi.string().required(),
   description: Joi.string().allow("").optional(),
   latitude: Joi.number().required(),

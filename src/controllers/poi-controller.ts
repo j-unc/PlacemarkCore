@@ -5,10 +5,12 @@ import { PlacemarkSpec } from "../models/joi-schemas.js";
 export const poiController = {
     index: {
         handler: async (request: Request, h: ResponseToolkit) => {
-            const placemarks = await db.placemarkStore!.getAll();
+            const user = request.auth.credentials;
+            const placemarks = await db.placemarkStore!.getByUserId(user._id as string);
             return h.view("poi/index", { 
                 title: "Points of Interest", 
-                placemarks: placemarks 
+                placemarks,
+                user,
             });
         }
     },
@@ -16,7 +18,8 @@ export const poiController = {
     addForm: {
         handler: (request: Request, h: ResponseToolkit) => {
             return h.view("poi/add", { 
-                title: "Add Placemark" });
+                title: "Add Placemark",
+                user: request.auth.credentials});
         }
     },
 
@@ -60,7 +63,8 @@ export const poiController = {
             }
             return h.view("poi/edit", { 
                 title: "Edit Placemark", 
-                placemark: placemark 
+                placemark: placemark,
+                user: request.auth.credentials 
             });
         }
     },
@@ -89,14 +93,12 @@ export const poiController = {
                 return h.response().code(403);
             }
 
-            const updatedPlacemark = await db.placemarkStore!.update({
-                _id: oldPoi!._id,
-                userId: request.auth.credentials._id as string,
-                name: poi.name,
-                description: poi.description,
-                latitude: poi.latitude,
-                longitude: poi.longitude
-            });
+            const updatedPlacemark = await db.placemarkStore!.update(oldPoi!, {
+                    name: poi.name,
+                    description: poi.description,
+                    latitude: poi.latitude,
+                    longitude: poi.longitude
+                });
 
             if (!updatedPlacemark) {
                 return h.response().code(404);
@@ -114,7 +116,7 @@ export const poiController = {
             if (poi!.userId !== user._id && user.role !== "admin") {
                 return h.response().code(403);
             }
-            
+
             await db.placemarkStore!.deleteById(poi!._id);
             return h.redirect("/poi");
         }
