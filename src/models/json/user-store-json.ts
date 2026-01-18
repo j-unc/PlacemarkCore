@@ -37,12 +37,7 @@ export const userStoreJson: UserStore = {
     await db.read();
     db.data.users = db.data.users.filter(u => u._id !== id);
     await db.write();
-  },
-
-  async deleteAll(): Promise<void> {
-    db.data.users = [];
-    await db.write();
   }
-
+  
   // TODO: add Update user method, expand User
 };

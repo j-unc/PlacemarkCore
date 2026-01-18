@@ -15,15 +15,23 @@ export const placemarkStoreJson: PlacemarkStore = {
         return db.data.placemarks.find(p => p._id === id);
     },
 
+    async getByUserId(userId: string): Promise<Placemark[]> {
+        await db.read();
+        return db.data.placemarks?.filter(p => p.userId === userId) || [];
+    },
+
+
     async add(placemark: Omit<Placemark, "_id">): Promise<Placemark> {
         await db.read();
         const newPlacemark: Placemark = {
             _id: v4(),
+            userId: placemark.userId,
             name: placemark.name,
             description: placemark.description,
             latitude: placemark.latitude,
             longitude: placemark.longitude
         };
+        console.log("Adding new placemark:", newPlacemark);
         db.data.placemarks.push(newPlacemark);
         await db.write();
         return newPlacemark;
